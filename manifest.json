@@ -1,16 +1,23 @@
 {
-  "manifest_version": 2,
-  "name": "geographySiteGen",
+  "manifest_version": 3,
+  "name": "GeoNetizens",
   "description": "display fact of the country of origin of the visited site",
   "version": "1",
   "icons": {
-
+    "16": "/images/globeIcon.png",
+    "48": "/images/globeIcon.png",
+    "128": "/images/globeIcon.png"
   },
   "page_action": {
     "default_icon": {
-
-    }
+      "16": "/images/globeIcon.png",
+      "48": "/images/globeIcon.png",
+      "128": "/images/globeIcon.png"
+    },
   },
-  "content_scripts": [{}]
-
+  "content_scripts": [
+    {
+    "matches": ["https://www.google.com/*"],
+  }
+]
 }
