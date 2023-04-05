@@ -6,7 +6,7 @@
 
 // messing with api access
 const ipGeolocation_API_key = 'e025e69f35024a1e811f198d05431291';
-const myIp = '142.251.40.142';
+const myIp = '38.140.1.57';
 const endPointURL = 'https://api.ipgeolocation.io/ipgeo';
 
 const test = `https://api.ipgeolocation.io/ipgeo?apiKey=${ipGeolocation_API_key}&ip=${myIp}`
