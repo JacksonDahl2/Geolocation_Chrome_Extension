@@ -20,17 +20,18 @@ class DisplayInformation {
     // from weather
     this.temperature; // C    // F
     this.wind_speed; // km/h  // mph
-    this.percipitation; // mm // in
+   // this.percipitation; // mm // in
     this.cloudcover;  // % ?
     this.visibility; // km    // mi
-    this.weather_icon; 
+    this.description; 
     this.addWeatherInformation = (data) => {
-      this.temperature = data.current.temperature;
-      this.wind_speed = data.current.wind_speed;
-      this.weather_icon = data.current.weather_icons[0];
-      this.percipitation = data.current.precip;
-      this.cloudcover = data.current.cloudcover;
-      this.visibility = data.current.visibility;
+      //console.log(data);
+      this.temperature = data.main.temp;
+      this.wind_speed = Math.floor(data.wind.speed);
+      this.description = data.weather[0].description;
+      //this.percipitation = data.rain['1hr'];
+      this.cloudcover = data.clouds.all;
+      this.visibility = data.visibility;
     }
     this.convertF = () => {
       this.temperature = Math.floor((this.temperature * 9/5) + 32);
@@ -41,56 +42,83 @@ class DisplayInformation {
   }
 }
 
-// document.addEventListener('DOMContentLoaded', () => {
-//   // api access stuff
+// get current tab gets the current tab and returns the url
+async function getCurrentTab() {
+  let queryOptions = { active: true, lastFocusedWindow: true };
+  // `tab` will either be a `tabs.Tab` instance or `undefined`.
+  let [tab] = await chrome.tabs.query(queryOptions);
+  url = await tab.url;
+  console.log(url);
+  logJSONData(url)
+}
+
+
+getCurrentTab();
   // messing with api access
-  const ipGeolocation_API_key = 'e025e69f35024a1e811f198d05431291';
-  let myIp = {'facebook.com': '157.240.241.35',
-              'google.com': '142.250.81.238',
-              'instagram.com': '157.240.241.174'};
+const ipGeolocation_API_key = 'e025e69f35024a1e811f198d05431291';
+let myIp = {'https://www.facebook.com/': '157.240.241.35',
+            'https://www.google.com/': '142.250.81.238',
+            'https://www.novinky.cz/': '77.75.78.151',
+            'https://www.baidu.com/': '110.242.68.66',
+            'https://shopee.vn/': '103.117.240.34'};
 
-  
+
+//logJSONData('https://www.google.com/');
+
   // weather api
-  const weather_API_key = '5468041419edd23a2de0ccffb23d5e27';
-
-
-  logJSONData();
+//const weather_API_key = '5468041419edd23a2de0ccffb23d5e27';
   //want to get the ip of whatever website the user is on
+async function logJSONData(web_ip) {
+  console.log(myIp[web_ip]);
+  // location api call
+  const location_url = `https://api.ipgeolocation.io/ipgeo?apiKey=${ipGeolocation_API_key}&ip=${myIp[web_ip]}`
+  const response = await fetch(location_url);
+  const jsonData = await response.json();
+  let location_obj = parseDataIntoObject(jsonData);
 
-  async function logJSONData() {
-    // location api call
-    const location_url = `https://api.ipgeolocation.io/ipgeo?apiKey=${ipGeolocation_API_key}&ip=${myIp['google.com']}`
-    const response = await fetch(location_url);
-    const jsonData = await response.json();
-    let location_obj = parseDataIntoObject(jsonData);
+  // weather api call
+  getWeather(location_obj, web_ip)
+    .then((data) => {
+      location_obj.addWeatherInformation(data)
+      //console.log(location_obj);
+      buildHTML(location_obj, web_ip);
+    });
+}
 
-    // weather api call
-    // const location_string_for_weather = `'${location_obj.capital},${location_obj.country}'`
-    // const weather_url = `http://api.weatherstack.com/current?access_key=${weather_API_key}&query=${location_string_for_weather}`
-    // const response2 = await fetch(weather_url);
-    // const jsonData2 = await response2.json();
-    // location_obj.addWeatherInformation(jsonData2);
-    console.log(location_obj);
-    console.log(location_obj.country)
-      let countryInput = document.querySelector('#facts > :first-child');
-      countryInput.textContent = location_obj.country;
-      let capitalInput = document.querySelector('#facts > :nth-child(3)');
-      console.log(capitalInput)
-      capitalInput.textContent = location_obj.capital;
-      let flagInput = document.querySelector('#facts > :nth-child(2)');
-      let flagImage = document.createElement('img');
-      flagImage.setAttribute('src', location_obj.flag_path);
-      flagImage.setAttribute('width', "100px");
-      flagInput.append(flagImage);
-      let longInput = document.querySelector('#facts > :nth-child(4)');
-      longInput.textContent = `longitude: ${location_obj.longitude}`;
-      let latInput = document.querySelector('#facts > :nth-child(5)');
-      latInput.textContent = `latitude: ${location_obj.latitude}`;
-  }
+function buildHTML(location_obj, web_ip) {
+  console.log(location_obj);
+
+  let webSiteName = document.querySelector('#currentWebsite');
+  webSiteName.innerText = web_ip;
+  let countryInput = document.querySelector('#facts > :first-child');
+  countryInput.textContent = location_obj.country;
+  let capitalInput = document.querySelector('#facts > :nth-child(3)');
+  console.log(capitalInput)
+  capitalInput.textContent = location_obj.capital;
+  let flagInput = document.querySelector('#facts > :nth-child(2)');
+  let flagImage = document.createElement('img');
+  flagImage.setAttribute('src', location_obj.flag_path);
+  flagImage.setAttribute('width', "100px");
+  flagInput.append(flagImage);
+  let longInput = document.querySelector('#facts > :nth-child(4)');
+  longInput.textContent = `longitude: ${location_obj.longitude}`;
+  let latInput = document.querySelector('#facts > :nth-child(5)');
+  latInput.textContent = `latitude: ${location_obj.latitude}`;
+}
+
+async function getWeather(location_obj) {
+  const key = '19775201bbeb6b19e7f4e1737a8dfe1e';
+
+  //const location_string_for_weather = `${location_obj.capital},${location_obj.country}`
+  const weather_url = `https://api.openweathermap.org/data/2.5/weather?lat=${location_obj.latitude}&lon=${location_obj.longitude}&appid=${key}`;
+  //const weather_url = `http://api.weatherstack.com/current?access_key=${weather_API_key}&query=${location_string_for_weather}`
+  const response2 = await fetch(weather_url);
+  const jsonData2 = await response2.json();
+  return jsonData2;
+}
 
 
-  function parseDataIntoObject(jsonData) {
-    const new_country_display = new DisplayInformation(jsonData)
-    return new_country_display;
-  }
-// });
+function parseDataIntoObject(jsonData) {
+  const new_country_display = new DisplayInformation(jsonData)
+  return new_country_display;
+}
