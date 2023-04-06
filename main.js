@@ -40,39 +40,52 @@ class DisplayInformation {
     }
   }
 }
-const test_ip = location.host;
-console.log(test_ip);
 
-document.addEventListener('DOMContentLoaded', () => {
-  // api access stuff
+// document.addEventListener('DOMContentLoaded', () => {
+//   // api access stuff
   // messing with api access
-const ipGeolocation_API_key = 'e025e69f35024a1e811f198d05431291';
-const myIp = '38.140.1.59';
+  const ipGeolocation_API_key = 'e025e69f35024a1e811f198d05431291';
+  let myIp = {'facebook.com': '157.240.241.35',
+              'google.com': '142.250.81.238',
+              'instagram.com': '157.240.241.174'};
 
-
-// weather api
-const weather_API_key = '5468041419edd23a2de0ccffb23d5e27';
+  
+  // weather api
+  const weather_API_key = '5468041419edd23a2de0ccffb23d5e27';
 
 
   logJSONData();
-  // want to get the ip of whatever website the user is on
+  //want to get the ip of whatever website the user is on
 
   async function logJSONData() {
     // location api call
-    const location_url = `https://api.ipgeolocation.io/ipgeo?apiKey=${ipGeolocation_API_key}&ip=${myIp}`
+    const location_url = `https://api.ipgeolocation.io/ipgeo?apiKey=${ipGeolocation_API_key}&ip=${myIp['google.com']}`
     const response = await fetch(location_url);
     const jsonData = await response.json();
     let location_obj = parseDataIntoObject(jsonData);
 
     // weather api call
-    const location_string_for_weather = `'${location_obj.capital},${location_obj.country}'`
-    const weather_url = `http://api.weatherstack.com/current?access_key=${weather_API_key}&query=${location_string_for_weather}`
-    const response2 = await fetch(weather_url);
-    const jsonData2 = await response2.json();
-    location_obj.addWeatherInformation(jsonData2);
+    // const location_string_for_weather = `'${location_obj.capital},${location_obj.country}'`
+    // const weather_url = `http://api.weatherstack.com/current?access_key=${weather_API_key}&query=${location_string_for_weather}`
+    // const response2 = await fetch(weather_url);
+    // const jsonData2 = await response2.json();
+    // location_obj.addWeatherInformation(jsonData2);
     console.log(location_obj);
-    location_obj.convertF();
-    console.log(location_obj);
+    console.log(location_obj.country)
+      let countryInput = document.querySelector('#facts > :first-child');
+      countryInput.textContent = location_obj.country;
+      let capitalInput = document.querySelector('#facts > :nth-child(3)');
+      console.log(capitalInput)
+      capitalInput.textContent = location_obj.capital;
+      let flagInput = document.querySelector('#facts > :nth-child(2)');
+      let flagImage = document.createElement('img');
+      flagImage.setAttribute('src', location_obj.flag_path);
+      flagImage.setAttribute('width', "100px");
+      flagInput.append(flagImage);
+      let longInput = document.querySelector('#facts > :nth-child(4)');
+      longInput.textContent = `longitude: ${location_obj.longitude}`;
+      let latInput = document.querySelector('#facts > :nth-child(5)');
+      latInput.textContent = `latitude: ${location_obj.latitude}`;
   }
 
 
@@ -80,6 +93,4 @@ const weather_API_key = '5468041419edd23a2de0ccffb23d5e27';
     const new_country_display = new DisplayInformation(jsonData)
     return new_country_display;
   }
-
-
-});
+// });

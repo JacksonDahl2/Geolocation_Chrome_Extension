@@ -11,10 +11,15 @@
   "action": {
     "default_popup": "index.html"
   },
+  "permissions": [
+    "tabs",
+    "activeTab"
+  ],
   "content_scripts": [
     {
-    "matches": ["https://www.google.com/*"],
-    "css": ["main.css"]
+    "matches": ["https://www.google.com/"],
+    "css": ["main.css"],
+    "js": ["main.js"]
   }
 ]
 }
