@@ -8,16 +8,13 @@
     "48": "/images/globeIcon.png",
     "128": "/images/globeIcon.png"
   },
-  "page_action": {
-    "default_icon": {
-      "16": "/images/globeIcon.png",
-      "48": "/images/globeIcon.png",
-      "128": "/images/globeIcon.png"
-    },
+  "action": {
+    "default_popup": "index.html"
   },
   "content_scripts": [
     {
     "matches": ["https://www.google.com/*"],
+    "css": ["main.css"]
   }
 ]
 }
