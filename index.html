@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title>geographic locator</title>
-    <script src='main.js'></script>
+
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
     <audio src="audio/heny.mp3" autoplay> </audio>
@@ -11,8 +11,8 @@
   <body>
       <div class="content">
         <div class="toggle-info">
-          <button>Normal Facts</button>
-          <button>Weather</button>
+          <button type="button" id="normalfactsbutton">Normal Facts</button>
+          <button type="button" id="weatherbutton">Weather</button>
         </div>
         <h1 id="currentWebsite">Insert the Current Website</h1>
         <ul id="facts">
@@ -24,8 +24,14 @@
           <li>FunFacts: ****</li>
         </ul>
         <ul id="Weather">
+          <li>temperature</li>
+          <li>wind-speed</li>
+          <li>description</li>
+          <li>cloudcover</li>
+          <li>visibility</li>
           <li></li>
         </ul>
       </div>
+      <script src='main.js'></script>
   </body>
 </html>

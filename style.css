@@ -125,3 +125,6 @@ ul li:nth-child(2):hover {
   justify-content: center;
   align-items: center;
 }
+#Weather {
+  display: none;
+}
