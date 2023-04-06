@@ -49,6 +49,8 @@ body {
   width: 400px;
   height: 600px;
   font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  justify-content: center;
 }
 .toggle-info {
   display:flex;
@@ -56,17 +58,17 @@ body {
   width: 100%;
 }
 .toggle-info button {
+  font-size: 1.2rem;
+  font-weight: 700;
   width: 50%;
   padding: 15px;
   background-color: rgba(135, 207, 235, 0.139);
   border: none;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  animation: fadeIn 3s;
+  border-radius: 20px;
+  transition: .5s;
 }
-@keyframes fadeIn {
-  0% { opacity: 1; }
-  100% { opacity: .5; }
+.toggle-info button:hover {
+  background-color: gray;
 }
 body .content {
   font-family: Arial, Helvetica, sans-serif;
@@ -105,8 +107,21 @@ ul li:hover {
   font-size: 1.5rem;
 }
 ul li:nth-child(2) {
+  margin: 20px;
   transition: transform .7s ease-in-out;
 }
 ul li:nth-child(2):hover {
   transform: rotate(360deg);
+}
+#weatherGif {
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  width: 200px;
+  height: 150px;
+}
+#title-pic {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
