@@ -44,8 +44,8 @@ table {
 }
 html, body {margin: 0; height: 100%; overflow: hidden}
 body {
-  background:url("https://img.freepik.com/free-vector/vector-seamless-ocean-view-background-with-text-space-horizontally-repeatable_8130-2255.jpg?w=740&t=st=1680739088~exp=1680739688~hmac=351150975924a1a6011e20a2d84a4adfc1ee265624bcecc44797327a5d26ac55");
-  font-size: 1.5rem; 
+  background:url('https://e1.pxfuel.com/desktop-wallpaper/845/641/desktop-wallpaper-anime-weathering-with-you-hina-amano-pinterest-hodaka-morishima.jpg');
+  font-size: 1.25rem; 
   width: 400px;
   height: 600px;
   font-family: Arial, Helvetica, sans-serif;
@@ -58,27 +58,55 @@ body {
 .toggle-info button {
   width: 50%;
   padding: 15px;
-  border: 1px solid rgba(128, 128, 128, 0.257);
   background-color: rgba(135, 207, 235, 0.139);
+  border: none;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  animation: fadeIn 3s;
 }
-.toggle-info button:hover {
-  background-color: dimgray;
+@keyframes fadeIn {
+  0% { opacity: 1; }
+  100% { opacity: .5; }
 }
 body .content {
-  background-color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: rgba(211, 211, 211, 0.736);
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   position: absolute;
   bottom: 0;
-  border-top-right-radius:15px;
-  border-top-left-radius: 15px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+#currentWebsite {
+  font-size: 1.5rem;
+  padding-top: 10px;
+  color: cadetblue;
+  font-weight: 700;
 }
 ul {
   list-style: none;
   padding-top: 15px;
+  text-align: center;
+  padding-bottom: 20px ;
 }
 ul li {
+  color:darkslategrey;
   padding: 5px;
+  font-style: italic;
+  transition-duration: 500ms;
+}
+ul li:first-child{
+  font-size: 1.4rem;
+}
+ul li:hover {
+  font-size: 1.5rem;
+}
+ul li:nth-child(2) {
+  transition: transform .7s ease-in-out;
+}
+ul li:nth-child(2):hover {
+  transform: rotate(360deg);
 }
