@@ -54,9 +54,9 @@ async function getCurrentTab() {
 }
 
 
-getCurrentTab();
+getCurrentTab(); 
   // messing with api access
-const ipGeolocation_API_key = 'e025e69f35024a1e811f198d05431291';
+const ipGeolocation_API_key = '';  // api key
 let myIp = {'https://www.facebook.com/': '157.240.241.35',
             'https://www.google.com/': '142.250.81.238',
             'https://alaska.gov/': '158.145.65.37',
@@ -91,7 +91,7 @@ const fun_facts = {
 //logJSONData('https://www.google.com/');
 
   // weather api
-//const weather_API_key = '5468041419edd23a2de0ccffb23d5e27';
+//const weather_API_key;
   //want to get the ip of whatever website the user is on
 async function logJSONData(web_ip) {
   console.log(myIp[web_ip]);
